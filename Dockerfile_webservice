@@ -1,0 +1,17 @@
+FROM debian:buster
+
+RUN apt-get update && apt-get install -y python3 python3-pip
+
+COPY webserver.py requirements.txt /
+
+RUN pip3 install -r requirements.txt
+
+USER 65534:65534
+
+EXPOSE 8080
+
+# The enviroment variable ensures that the python output is set straight
+# to the terminal with out buffering it first
+ENV PYTHONUNBUFFERED=1
+
+CMD ["/usr/bin/python3", "/webserver.py"]
